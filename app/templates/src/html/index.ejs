@@ -1,0 +1,7 @@
+<%- include('layout/header', { title: globals.appname }) %>
+<% if(views && views.length) { %>
+<% views.forEach(function(view){ %>
+    <a href="<%= view %>"><%= view %></a>
+<% }); %>
+<% } %>
+<%- include('layout/footer') %>

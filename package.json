@@ -1,0 +1,28 @@
+{
+    "name": "generator-materialize",
+    "version": "0.0.1",
+    "description": "Basic setup for materialize prototyping",
+    "files": [
+        "app"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/noodny/generator-materialize.git"
+    },
+    "keywords": [
+        "yeoman-generator",
+        "materialize"
+    ],
+    "author": "Krzysztof Jakubik",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/noodny/generator-materialize/issues"
+    },
+    "homepage": "https://github.com/noodny/generator-materialize",
+    "dependencies": {
+        "yeoman-generator": "^0.20.2"
+    }
+}
