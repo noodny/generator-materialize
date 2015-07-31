@@ -15,55 +15,56 @@ function handleError(err) {
 
 gulp.task('static', function() {
     gulp.src(['./src/js/**/*', './src/img/**/*'], {base: './src/'})
-        .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('sass', function() {
-    gulp.src('./src/css/scss/**/*.scss')
+        .pipe($.watch(['./src/js/**/*', './src/img/**/*']))
         .pipe($.plumber({
             errorHandler: handleError
         }))
-        .pipe($.sass().on('error', $.util.log))
+        .pipe(gulp.dest('./dist'))
+        .on('data', browserSync.reload);
+});
+
+gulp.task('styles', function() {
+    gulp.src('./src/css/scss/**/*.scss')
+        .pipe($.watch('./src/css/scss/**/*.scss'))
+        .pipe($.plumber({
+            errorHandler: handleError
+        }))
+        .pipe($.sass())
         .pipe(gulp.dest('./dist/css'))
         .pipe(browserSync.stream());
 });
 
 gulp.task('html', function() {
     gulp.src('./src/html/views/*.ejs')
+        .pipe($.watch('./src/html/views/*.ejs'))
         .pipe($.plumber({
             errorHandler: handleError
         }))
         .pipe($.ejs({
             globals: globals
-        }).on('error', $.util.log))
+        }))
         .pipe(gulp.dest('./dist/views/'))
+        .on('data', browserSync.reload);
 });
 
 gulp.task('html:index', function() {
     var views = glob.sync('./dist/views/*.html');
 
+    views.forEach(function(view, index) {
+        views[index] = view.replace('./dist/', '');
+    });
+
     gulp.src('./src/html/index.ejs')
+        .pipe($.watch(['./src/html/index.ejs', './src/html/views/*.ejs']))
         .pipe($.plumber({
             errorHandler: handleError
         }))
         .pipe($.ejs({
             globals: globals,
             views: views
-        }).on('error', $.util.log))
+        }))
         .pipe(gulp.dest('./dist/'))
-});
-
-gulp.task('watch', function() {
-    gulp.watch('./src/css/scss/**/*.scss', ['sass']);
-
-    gulp.watch(['./src/js/**/*', './src/img/**/*'], ['static'])
-        .on('change', browserSync.reload);
-
-    gulp.watch('./src/index.ejs', ['html:index'])
-        .on('change', browserSync.reload);
-
-    gulp.watch('./src/html/**/*.ejs', ['html', 'html:index'])
-        .on('change', browserSync.reload);
+        .on('data', browserSync.reload);
 });
 
 gulp.task('sync', function() {
@@ -74,4 +75,4 @@ gulp.task('sync', function() {
     });
 });
 
-gulp.task('default', $.sequence(['sass', 'html', 'html:index', 'static'], 'watch', 'sync'));
+gulp.task('default', $.sequence(['styles', 'html', 'html:index', 'static'], 'sync'));

@@ -45,7 +45,7 @@ module.exports = generators.Base.extend({
             'gulp-sass',
             'gulp-sequence',
             'gulp-ejs',
-            'gulp-util'
+            'gulp-watch'
         ], {
             'save': true
         });
