@@ -1,6 +1,6 @@
 {
     "name": "generator-materialize",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "Basic setup for materialize prototyping",
     "files": [
         "app"
